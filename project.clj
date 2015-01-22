@@ -1,7 +1,7 @@
-(defproject lein-expectations "0.0.9-SNAPSHOT"
+(defproject org.clojars.khoda.lein-expectations "0.0.9-SNAPSHOT"
   :description "Leiningen plugin to run tests written using the expectations library."
   :url "https://github.com/gar3thjon3s/lein-expectations"
-  :dependencies [[expectations/expectations "1.4.5"]]
+  :dependencies [[org.clojars.khoda.expectations "2.0.13-SNAPSHOT"]]
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :expectations/show-finished-ns true
