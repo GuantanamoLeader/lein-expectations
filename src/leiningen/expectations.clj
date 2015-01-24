@@ -46,6 +46,11 @@
   (print ".")
   (flush))
 
+(defmacro set-html-formatter []
+  '(let [cols ["Name" "Status" "Info"]
+        fb (clojure.java.io/writer (clojure.java.io/file "test_report.html"))]
+     (expectations/set-formatter (html/->HTMLFormatter fb cols) html/html-key)))
+
 (defn expectations
   "Executes expectation tests in your project.
    By default all test namespaces will be run, or you can specify
@@ -64,6 +69,7 @@
      project
      `(do
         (expectations/disable-run-on-shutdown)
+        (set-html-formatter)
         (doseq [n# '~ns]
           (require n# :reload))
         (binding [expectations/ns-finished ~(if show-finished-ns
@@ -72,15 +78,13 @@
                   expectations/expectation-finished ~(if show-finished-expectation
                                                        'leiningen.expectations/print-finished-expectation
                                                        'expectations/expectation-finished)]
-          (let [summary# (expectations/run-all-tests)]
+          (expectations/run-all-tests)
+          (comment let [summary# (expectations/run-all-tests)]
             (with-open [w# (-> (java.io.File. ~path)
                                (java.io.FileOutputStream.)
                                (java.io.OutputStreamWriter.))]
               (.write w# (pr-str summary#)))))
         (shutdown-agents))
-     '(require ['expectations]))
-    (if (and (.exists results) (pos? (.length results)))
-      (when-not (let [summary (read-string (slurp path))]
-                  (zero? (+ (:fail summary) (:error summary))))
-        (leiningen.core.main/abort))
-      (leiningen.core.main/abort "Unable to read results."))))
+     '(require ['expectations ]
+               ['expectations.formatters.html :as 'html]))
+    (leiningen.core.main/abort "All test are done.")))
