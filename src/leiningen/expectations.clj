@@ -78,12 +78,7 @@
                   expectations/expectation-finished ~(if show-finished-expectation
                                                        'leiningen.expectations/print-finished-expectation
                                                        'expectations/expectation-finished)]
-          (expectations/run-all-tests)
-          (comment let [summary# (expectations/run-all-tests)]
-            (with-open [w# (-> (java.io.File. ~path)
-                               (java.io.FileOutputStream.)
-                               (java.io.OutputStreamWriter.))]
-              (.write w# (pr-str summary#)))))
+          (expectations/run-all-tests))
         (shutdown-agents))
      '(require ['expectations ]
                ['expectations.formatters.html :as 'html]))
