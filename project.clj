@@ -1,4 +1,4 @@
-(defproject org.clojars.khoda.lein-expectations "0.0.9"
+(defproject org.clojars.khoda.lein-expectations "0.0.10"
   :description "Leiningen plugin to run tests written using the expectations library."
   :url "https://github.com/gar3thjon3s/lein-expectations"
   :dependencies [[org.clojars.khoda.expectations "2.0.13"]]
