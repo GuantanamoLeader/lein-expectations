@@ -46,11 +46,6 @@
   (print ".")
   (flush))
 
-(defmacro set-html-formatter []
-  '(let [cols ["Name" "Status" "Info"]
-        fb (clojure.java.io/writer (clojure.java.io/file "test_report.html"))]
-     (expectations/set-formatter (html/->HTMLFormatter fb cols) html/html-key)))
-
 (defn expectations
   "Executes expectation tests in your project.
    By default all test namespaces will be run, or you can specify
@@ -69,7 +64,10 @@
      project
      `(do
         (expectations/disable-run-on-shutdown)
-        (set-html-formatter)
+	 (let [cols# ["Name" "Status" "Info"]
+	       fb# (clojure.java.io/writer (clojure.java.io/file "test_report.html"))]
+	  (expectations/set-formatter (html/->HTMLFormatter fb# cols#) html/html-key))
+
         (doseq [n# '~ns]
           (require n# :reload))
         (binding [expectations/ns-finished ~(if show-finished-ns
